@@ -12,11 +12,23 @@ const INTENT_PRESETS = [
   "复古电影，胶片质感",
 ];
 
-// 占位画廊（明天用真实视频替换）
+// 案例视频画廊（真实样例，存储在 OSS）
 const GALLERY = [
-  { title: "城市夜景", desc: "缓慢推近 · 5s" },
-  { title: "温馨小猫", desc: "毛发飘动 · 5s" },
-  { title: "山间日出", desc: "镜头平移 · 5s" },
+  {
+    title: "灵动小猫",
+    desc: "车内欢快律动 · 5s",
+    video: "https://libaivedio.oss-cn-beijing.aliyuncs.com/gallery/01-warm-cat.mp4",
+  },
+  {
+    title: "城市夜景",
+    desc: "江水缓流，明月升起 · 5s",
+    video: "https://libaivedio.oss-cn-beijing.aliyuncs.com/gallery/02-city-night.mp4",
+  },
+  {
+    title: "海边日出",
+    desc: "海浪与朝阳同升 · 5s",
+    video: "https://libaivedio.oss-cn-beijing.aliyuncs.com/gallery/03-mountain-sunrise.mp4",
+  },
 ];
 
 export default function HomePage() {
@@ -170,14 +182,29 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Demo 画廊（占位） */}
+      {/* 案例视频画廊 */}
       <div>
         <h2 className="text-2xl font-bold mb-4">案例展示</h2>
         <div className="grid md:grid-cols-3 gap-4">
           {GALLERY.map((g) => (
-            <div key={g.title} className="card hover:border-accent/50 transition-colors cursor-pointer">
-              <div className="aspect-video bg-bg-tertiary rounded-lg mb-3 flex items-center justify-center text-text-muted text-sm">
-                即将上线
+            <div
+              key={g.title}
+              className="card hover:border-accent/50 transition-colors group"
+            >
+              <div className="aspect-video bg-black rounded-lg mb-3 overflow-hidden">
+                <video
+                  src={g.video}
+                  className="w-full h-full object-cover"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  onMouseEnter={(e) => e.currentTarget.play().catch(() => {})}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.pause();
+                    e.currentTarget.currentTime = 0;
+                  }}
+                />
               </div>
               <div className="font-medium">{g.title}</div>
               <div className="text-xs text-text-muted font-mono mt-1">{g.desc}</div>
